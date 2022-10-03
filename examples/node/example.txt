@@ -1,0 +1,49 @@
+import { assert } from 'console';
+import { ulid } from 'ulid';
+
+class ObjectStream {
+  put(...props: any) {}
+}
+
+class Streamlio {
+  async connect(url: string, ...props: any) {}
+  async subscribe(url: string) {}
+  async list(url: string, schema?: any): Promise<any[]> {
+    return [];
+  }
+
+  async set(id: string, object: any, options?: any): Promise<void> {}
+  async get(id: string, options?: any): Promise<any> {}
+}
+const Church = {};
+const Group = {};
+const Post = {};
+const Message = {};
+
+// Is this necessary?
+const config = {
+  churches: { url: '/churches', schema: Church },
+  groups: { url: '/churches/:churchId/groups', schema: Group },
+  posts: { url: '/churches/:churchId/groups/:groupId/posts', schema: Post },
+  messages: { url: '/messages/:groupId', schema: Message },
+};
+
+const tenantId = 'TENANT1';
+
+async function main() {
+  const client = new Streamlio();
+  await client.connect(`ws://127.0.0.1:8787/${tenantId}`, { auth: 'mytoken' });
+  const churches = await client.list('/churches', { schema: Church });
+  const church: any = churches[0];
+  client.subscribe(`/churches/${church.id}`); // Keep all objects in this path in sync
+
+  // Create group
+  const id = ulid();
+  const youth: any = client.set(`/churches/${church.id}/groups/:${id}`, { id, name: 'Youth' });
+
+  // List the groups
+  const groups = client.list(`/churches/${church.id}/groups`, { schema: Group });
+
+  // Get object
+  const youth2: any = client.get(`/churches/${church.id}/groups/${youth.id}`);
+}
