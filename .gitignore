@@ -1,0 +1,23 @@
+default.realm*
+pipesdb.realm*
+*.svg.bkp
+
+.DS_Store
+dist/
+node_modules/
+yarn.lock
+
+# Logs
+npm-debug.log_
+yarn-debug.log*
+yarn-error.log*
+
+# yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.\*
+
+# jest
+coverage

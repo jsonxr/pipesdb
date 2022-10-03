@@ -1,0 +1,45 @@
+export class TypedEventTarget<E> extends EventTarget {
+  //@ts-ignore
+  addEventListener<K extends keyof E>(
+    type: K,
+    listener: (ev: CustomEvent<E[K]>) => void,
+    options?: boolean | AddEventListenerOptions
+  ) {
+    super.addEventListener(type as string, listener as any, options);
+  }
+  //@ts-ignore
+  dispatchEvent<K extends keyof E>(ev: CustomEvent<E[K]>): boolean {
+    return super.dispatchEvent(ev as any);
+  }
+
+  //@ts-ignore
+  removeEventListener<K extends keyof E>(
+    type: K,
+    callback: EventListenerOrEventListenerObject | null,
+    options?: boolean | EventListenerOptions | undefined
+  ): void {
+    super.removeEventListener(type as string, callback, options);
+  }
+}
+
+// export type TypedEventProducer<E> = {
+//   addEventListener<K extends keyof E>(
+//     type: K,
+//     listener: (ev: CustomEvent<E[K]>) => void,
+//     options?: boolean | AddEventListenerOptions
+//   ): void;
+
+//   //dispatchEvent<K extends keyof E>(ev: CustomEvent<E[K]>): boolean;
+
+//   removeEventListener<K extends keyof E>(
+//     type: K,
+//     callback: EventListenerOrEventListenerObject | null,
+//     options?: boolean | EventListenerOptions | undefined
+//   ): void;
+// };
+
+// export class TypedEvent<E extends object, K extends keyof E = keyof E> extends CustomEvent<any> {
+//   constructor(type: K, detail: E[K]) {
+//     super(type as string, { detail });
+//   }
+// }
