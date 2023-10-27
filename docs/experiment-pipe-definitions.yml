@@ -1,0 +1,69 @@
+schemas:
+  Church:
+  Comment:
+  Contact:
+  Event:
+  Group:
+  Photo:
+  Post:
+
+pipes:
+  - path: /events
+    schema: Event
+    sync: never
+    acl: write only
+  - path: /
+    acl: read only, write from events queue
+    sync: all
+    compacted: true
+    pipes:
+      - path: /churches
+        schema: Church
+      - path: /contacts
+        schema: Contact
+      - path: /groups
+        schema: Group
+        pipes:
+          - path: /posts
+            schema: Post
+            sync: lazy
+            pipes:
+              - path: /members
+                schema: Contact
+                sync: all #
+              - path: /comments
+                schema: Comment
+                sync: lazy
+              - path: /photos
+                schema: Photo
+                sync: lazy
+
+children:
+  - path: /churches
+    schema: Church
+  - path: /contacts
+    schema: List<Contact>
+    children:
+      - path: :id
+        schema: Contact
+  - path: /groups
+    schema: List<Group>
+    children:
+      - path: :id
+        schema: Group
+        children:
+          - path: /members
+            schema: List<Contact>
+            children:
+              - path: :id
+                schema: Contact
+          - path: /posts
+            schema: List<Post>
+            sync: lazy
+            children:
+              - path: :id
+                schema: Post
+                children:
+                  - path: /comments
+                    schema: List<Comment>
+                    sync: lazy

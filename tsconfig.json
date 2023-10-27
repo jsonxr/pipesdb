@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
-    "target": "es2020",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "strict": true,
-    "esModuleInterop": true,
-    "declaration": true,
+    "baseUrl": ".",
+    "lib": ["ES2020", "DOM"],
+    "target": "ES2020",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "composite": true,
+    "noEmit": false,
     "sourceMap": true,
-    "outDir": "./dist",
-    "forceConsistentCasingInFileNames": true
-  },
-  "include": ["src", "setup.js"]
+    "declarationMap": true,
+    "paths": {
+      "@jsonxr/*": ["packages/*/src"]
+    }
+  }
 }

@@ -1,8 +1,6 @@
-# PipesDB
+# PipesDb
 
-Realtime Streaming Database
-
-To develop locally `npm link`
+Realtime Streaming Database based on Event Sourcing.
 
 ## Use in Node
 
@@ -18,5 +16,3 @@ global.crypto = require('crypto').webcrypto;
 TODO: iPhone [CloudKit](https://developer.apple.com/forums/thread/69716)
 
 TODO: Android [Google Drive](https://developers.google.com/drive/api)
-
-Pipe: [pipes](docs/pipe.md)
