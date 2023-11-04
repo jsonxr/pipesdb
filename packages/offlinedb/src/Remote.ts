@@ -20,7 +20,7 @@ export class Remote {
     }
 
     this.processing = true;
-    await sleep(1000);
+    await sleep(3_000);
     let event = undefined;
     do {
       event = this.queue.shift();
