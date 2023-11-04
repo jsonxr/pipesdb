@@ -1,5 +1,8 @@
-import DatabaseConstructor, { type Database, type Statement } from 'better-sqlite3';
-import { type Storage, type StorageRow } from '../Storage.js';
+import DatabaseConstructor, {
+  type Database,
+  type Statement,
+} from 'better-sqlite3';
+import { type Storage, type StorageRow } from '../types.js';
 
 const DDL = `
 CREATE TABLE IF NOT EXISTS messages (
@@ -21,8 +24,10 @@ CREATE TABLE IF NOT EXISTS compacted (
 CREATE UNIQUE INDEX IF NOT EXISTS idx_compacted_pk_key ON compacted (pk, key);
 `;
 
-const INSERT_SQL = 'INSERT OR REPLACE INTO messages (id, key, pk, value) VALUES (?, ?, ?, ?);';
-const INSERT_COMPACTED_SQL = 'INSERT OR REPLACE INTO compacted (id, key, pk) VALUES (?, ?, ?);';
+const INSERT_SQL =
+  'INSERT OR REPLACE INTO messages (id, key, pk, value) VALUES (?, ?, ?, ?);';
+const INSERT_COMPACTED_SQL =
+  'INSERT OR REPLACE INTO compacted (id, key, pk) VALUES (?, ?, ?);';
 
 const SELECT_SQL = 'SELECT id, key, pk, value FROM messages WHERE pk = ?';
 const SELECT_COMPACTED = `
@@ -58,7 +63,9 @@ export class SqliteStorage implements Storage {
   }
 
   async list<T>($pk: string, compacted: boolean): Promise<T[]> {
-    const results = compacted ? this.#selectCompacted.all($pk) : this.#list.all($pk);
+    const results = compacted
+      ? this.#selectCompacted.all($pk)
+      : this.#list.all($pk);
     return results as T[];
   }
 }

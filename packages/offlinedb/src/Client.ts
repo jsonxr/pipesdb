@@ -1,7 +1,6 @@
 import { type Remote } from './Remote.js';
-import { type Resource, type ResourceConfig } from './Resource.js';
 import { ResourceImpl } from './ResourceImpl.js';
-import { type Storage } from './Storage.js';
+import { type Resource, type ResourceConfig, type Storage } from './types.js';
 
 export type ResourceConfigsOptions = Record<string, ResourceConfig<any>>;
 // Given type T = ResourceConfig<MyObject>, extracts MyObject
@@ -25,10 +24,12 @@ export class Client<R extends ResourceConfigsOptions> {
 }
 
 // Given a Record of ResourceConfig<R>, returns a Record of Resource<R>
-function getResourcesFromConfigs<R extends ResourceConfigsOptions>(config: ClientConfig<R>): Resources<R> {
+function getResourcesFromConfigs<R extends ResourceConfigsOptions>(
+  config: ClientConfig<R>
+): Resources<R> {
   const resources: Record<string, Resource<R>> = {};
   const keys: string[] = Object.keys(config.resources);
-  keys.forEach(k => {
+  keys.forEach((k) => {
     resources[k] = new ResourceImpl(config, config.resources[k]);
   });
   return resources as any;

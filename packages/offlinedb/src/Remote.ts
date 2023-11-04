@@ -1,6 +1,6 @@
-import { SyncEvent } from './SyncEvent.js';
+import { type SyncEvent } from './types.js';
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export class Remote {
   queue: SyncEvent<any>[];

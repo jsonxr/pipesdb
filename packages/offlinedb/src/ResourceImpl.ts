@@ -1,9 +1,13 @@
 import { ClientConfig } from './Client.js';
 import { PipeId } from './PipeId.js';
 import { Remote } from './Remote.js';
-import { type Resource, type ResourceConfig } from './Resource.js';
-import { type Storage } from './Storage.js';
-import { SyncEventImpl, type SyncEvent } from './SyncEvent.js';
+import { SyncEventImpl } from './SyncEvent.js';
+import {
+  type Resource,
+  type ResourceConfig,
+  type Storage,
+  type SyncEvent,
+} from './types.js';
 
 export class ResourceImpl<T extends { key: string }> implements Resource<T> {
   #storage: Storage;
